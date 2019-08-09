@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 
 /// MatchCondition will return the Widget of the Case that has the first positive condition.
 class MatchCondition extends StatelessWidget {
-
   /// Creates a new MatchCondition
   MatchCondition({@required this.cases, @required this.elseCase});
 

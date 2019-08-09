@@ -1,6 +1,6 @@
 name: condition
-description: Widgets that will show a based on conditions
-version: 0.0.1
+description: This package contains Widgets that will let you show a child Widget based on provided conditions.
+version: 0.0.4
 author: Stephan E.G. Veenstra <seg.veenstra@gmail.com>
 homepage: https://github.com/SEGVeenstra/flutter-package-condition
 
