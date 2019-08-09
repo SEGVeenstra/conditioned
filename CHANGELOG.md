@@ -1,3 +1,7 @@
+## 0.0.? - ???
+
+* Rename fallback case of MatchCondition from elseCase to defaultCase
+
 ## 0.0.2 - 08/09/2019
 
 * Fix a typo in `pubspec.yaml` (homepage url)

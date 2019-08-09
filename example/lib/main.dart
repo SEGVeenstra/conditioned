@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
                         semanticLabel: 'icon of a cloud',
                       )),
                 ],
-                elseCase: Icon(Icons.wb_sunny),
+                defaultCase: Icon(Icons.wb_sunny),
               ),
               Text(myNumber.toStringAsFixed(1)),
               Slider(
