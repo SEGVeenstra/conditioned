@@ -52,6 +52,38 @@ class MyApp extends StatelessWidget {
                   style: TextStyle(color: Colors.orange[800]),
                 ),
               ),
+              if (myNumber < 25)
+                Icon(Icons.ac_unit)
+              else if (myNumber < 50)
+                Icon(
+                  Icons.beach_access,
+                  size: 64.0,
+                )
+              else if (myNumber < 75)
+                Icon(
+                  Icons.wb_cloudy,
+                  semanticLabel: 'icon of a cloud',
+                )
+              else
+                Icon(Icons.wb_sunny),
+              MatchCondition(
+                cases: [
+                  Case(condition: myNumber < 25, widget: Icon(Icons.ac_unit)),
+                  Case(
+                      condition: myNumber < 50,
+                      widget: Icon(
+                        Icons.beach_access,
+                        size: 64.0,
+                      )),
+                  Case(
+                      condition: myNumber < 75,
+                      widget: Icon(
+                        Icons.wb_cloudy,
+                        semanticLabel: 'icon of a cloud',
+                      )),
+                ],
+                elseCase: Icon(Icons.wb_sunny),
+              ),
               Text(myNumber.toStringAsFixed(1)),
               Slider(
                 value: myNumber,
