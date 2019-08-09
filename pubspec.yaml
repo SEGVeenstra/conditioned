@@ -2,7 +2,7 @@ name: condition
 description: Widgets that will show a based on conditions
 version: 0.0.1
 author: Stephan E.G. Veenstra <seg.veenstra@gmail.com>
-homepage: https://github.com/SEGVeenstra/flutter-package-conditiongit
+homepage: https://github.com/SEGVeenstra/flutter-package-condition
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
