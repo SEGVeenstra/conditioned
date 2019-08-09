@@ -1,3 +1,4 @@
-## [0.0.1] - TODO: Add release date.
+## 0.0.1 - 08/09/2019
 
-* TODO: Describe initial release.
+* Add the `Condition` Widget for simple true/false condition checks
+* Add the `MatchCondition` Widget for more complex condition checks

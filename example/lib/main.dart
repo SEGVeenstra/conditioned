@@ -22,25 +22,6 @@ class MyApp extends StatelessWidget {
           valueListenable: _myNumberNotifier,
           builder: (context, myNumber, child) => Column(
             children: <Widget>[
-              myNumber > 50
-                  ? Text(
-                      'The condition is true!',
-                      style: TextStyle(color: Colors.green[200]),
-                    )
-                  : Text(
-                      'The condition is false!',
-                      style: TextStyle(color: Colors.green[800]),
-                    ),
-              Text(
-                myNumber > 50
-                    ? 'The condition is true!'
-                    : 'The condition is false!',
-                style: TextStyle(
-                    color: myNumber > 50
-                        ? Colors.purple[200]
-                        : Colors.purple[800]),
-              ),
-              _createConditionText(myNumber),
               Condition(
                 condition: myNumber > 50,
                 whenTrue: Text(
@@ -52,20 +33,6 @@ class MyApp extends StatelessWidget {
                   style: TextStyle(color: Colors.orange[800]),
                 ),
               ),
-              if (myNumber < 25)
-                Icon(Icons.ac_unit)
-              else if (myNumber < 50)
-                Icon(
-                  Icons.beach_access,
-                  size: 64.0,
-                )
-              else if (myNumber < 75)
-                Icon(
-                  Icons.wb_cloudy,
-                  semanticLabel: 'icon of a cloud',
-                )
-              else
-                Icon(Icons.wb_sunny),
               MatchCondition(
                 cases: [
                   Case(condition: myNumber < 25, widget: Icon(Icons.ac_unit)),
@@ -97,14 +64,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-
-  Widget _createConditionText(double value) => value > 50
-      ? Text(
-          'The condition is true!',
-          style: TextStyle(color: Colors.blue[200]),
-        )
-      : Text(
-          'The condition is false!',
-          style: TextStyle(color: Colors.blue[800]),
-        );
 }
