@@ -12,7 +12,7 @@ It will not reduce your lines of code, it does however make it more readable by 
 #### Sample without `SimpleCondition`
 
 ```dart
-Widget build(Buildcontext context) {
+Widget build(BuildContext context) {
     return Container(
         child: myNumber > 50
           ? Text(
@@ -29,7 +29,7 @@ Widget build(Buildcontext context) {
 #### Sample with `SimpleCondition`
 
 ```dart
-Widget build(Buildcontext context) {
+Widget build(BuildContext context) {
     return Container(
         child: SimpleCondition(
             expression: myNumber > 50,
