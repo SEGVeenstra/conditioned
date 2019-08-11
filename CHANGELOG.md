@@ -1,3 +1,10 @@
+## 0.0.6 - 08/11/2019
+
+* Renamed a lot.
+* Updated README.md.
+* Updated the example.
+* Add some doc to the code.
+
 ## 0.0.5 - 08/10/2019
 
 * The Widget for simple true/false checks has been renamed from `Condition` to `SimpleCondition`.

@@ -1,14 +1,15 @@
 import 'package:flutter/widgets.dart';
 
-/// MatchCondition will return the Widget of the Case that has the first positive condition.
+/// Will show the [Widget] of the first [Case] that has a positive
+/// [expression].
+/// When non of the [cases] result in true, the [Widget] provided as
+/// [defaultCase] will be shown.
 class Condition extends StatelessWidget {
-  /// Creates a new MatchCondition
-  Condition({@required this.cases, @required this.defaultCase});
+  Condition({@required this.cases, @required this.defaultCase})
+      : assert(cases != null),
+        assert(defaultCase != null);
 
-  /// The cases to test against.
   final List<Case> cases;
-
-  /// The Widget to show when non of the cases match.
   final Widget defaultCase;
 
   @override
@@ -20,9 +21,14 @@ class Condition extends StatelessWidget {
   }
 }
 
+/// Used to configure the [Condition] Widget by providing an [expression] and
+/// a [Widget]. [Condition] will show the provided [widget] when the
+/// [expression] results in true.
 class Case {
   final bool expression;
   final Widget widget;
 
-  Case({@required this.expression, @required this.widget});
+  Case({@required this.expression, @required this.widget})
+      : assert(expression != null),
+        assert(widget != null);
 }
