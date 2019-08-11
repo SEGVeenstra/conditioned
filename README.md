@@ -49,11 +49,11 @@ Widget build(BuildContext context) {
 ### More complex use-cases
 
 When you want to add a specific child based on a condition but a simple true/false check will not suffice, you can avoid the `if`, `else if` and `else` drama by using the `Condition` Widget.
-`Condition` will embed the Widget of the first `Expression` whos condition validates as `true`.
+`Condition` will embed the Widget of the first `Case` whos `expression` validates as `true`.
 
 #### Sample without `Condition`
 
-We cannot use `if .. else if .. else` directly in our layout code. We have to propagate it to a function (not recommend) or to a new Widget.
+We cannot use `if .. else if .. else` directly in our layout code. We have to propagate it to a function (not recommended) or to a new Widget.
 
 ```dart
 Widget build(BuildContext context){
@@ -82,12 +82,12 @@ With the use of `Condition` you don't have to break up the tree at the point of 
 Widget build(BuildContext context) {
   return Container(
     child: Condition(
-      expressions: [
-        Expression(condition: myNumber < 25, widget: Icon(Icons.ac_unit)),
-        Expression(condition: myNumber < 50, widget: Icon(Icons.beach_access)),
-        Expression(condition: myNumber < 75, widget: Icon(Icons.wb_cloudy)),
+      cases: [
+        Case(expression: myNumber < 25, widget: Icon(Icons.ac_unit)),
+        Case(expression: myNumber < 50, widget: Icon(Icons.beach_access)),
+        Case(expression: myNumber < 75, widget: Icon(Icons.wb_cloudy)),
       ],
-      elseCase: Icon(Icons.wb_sunny),
+      defaultCase: Icon(Icons.wb_sunny),
     ),
   );
 }
@@ -105,7 +105,7 @@ final state = State.idle;
 
 #### Sample without `SwitchCondition`
 
-We cannot use a `switch` directly in our layout code. We have to propagate it to a function (not recommend) or to a new Widget.
+We cannot use a `switch` directly in our layout code. We have to propagate it to a function (not recommended) or to a new Widget.
 
 ```dart
 Widget build(BuildContext context) {

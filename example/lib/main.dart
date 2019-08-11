@@ -39,24 +39,24 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
                   Condition(
-                    expressions: [
-                      Expression(
-                          condition: myNumber < 25,
+                    cases: [
+                      Case(
+                          expression: myNumber < 25,
                           widget: Icon(Icons.ac_unit)),
-                      Expression(
-                          condition: myNumber < 50,
+                      Case(
+                          expression: myNumber < 50,
                           widget: Icon(
                             Icons.beach_access,
                             size: 64.0,
                           )),
-                      Expression(
-                          condition: myNumber < 75,
+                      Case(
+                          expression: myNumber < 75,
                           widget: Icon(
                             Icons.wb_cloudy,
                             semanticLabel: 'icon of a cloud',
                           )),
                     ],
-                    fallback: Icon(Icons.wb_sunny),
+                    defaultCase: Icon(Icons.wb_sunny),
                   ),
                   SwitchCondition<double>(
                     value: myNumber,
