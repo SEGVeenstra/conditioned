@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-enum State { idle, loading, full }
+class SomeClass {
+  String someFunction() => 'Some result';
+}
 
 class MyApp extends StatelessWidget {
   final _myNumberNotifier = ValueNotifier<double>(0.0);
-  final _myStateNotifier = ValueNotifier<State>(State.idle);
+  final _myObjectNotifier = ValueNotifier<SomeClass>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,31 @@ class MyApp extends StatelessWidget {
               valueListenable: _myNumberNotifier,
               builder: (context, myNumber, child) => Column(
                 children: <Widget>[
+                  Conditional(
+                    cases: [
+                      Case(
+                          expression: myNumber < 25,
+                          widget: Icon(Icons.ac_unit)),
+                      Case(
+                          expression: myNumber < 50,
+                          builder: () => Icon(
+                                Icons.beach_access,
+                                size: 64.0,
+                              )),
+                      Case(
+                          expression: myNumber < 75,
+                          widget: Icon(
+                            Icons.wb_cloudy,
+                            semanticLabel: 'icon of a cloud',
+                          )),
+                    ],
+                    defaultCase: Icon(Icons.wb_sunny),
+                  ),
+                  Conditional.boolean(
+                    myNumber > 50,
+                    trueWidget: Icon(Icons.airplanemode_active),
+                    falseWidget: Icon(Icons.directions_car),
+                  ),
                   SimpleCondition(
                     expression: myNumber > 50,
                     whenTrue: Text(
@@ -73,45 +100,21 @@ class MyApp extends StatelessWidget {
                     max: 100,
                     onChanged: (value) => _myNumberNotifier.value = value,
                   ),
-                ],
-              ),
-            ),
-            ValueListenableBuilder<State>(
-              valueListenable: _myStateNotifier,
-              builder: (context, state, child) => Column(
-                children: <Widget>[
-                  SwitchCondition<State>(
-                    value: state,
-                    cases: [
-                      SwitchCase(
-                          value: State.idle, widget: Icon(Icons.battery_alert)),
-                      SwitchCase(
-                          value: State.loading,
-                          widget: Icon(Icons.battery_charging_full)),
-                    ],
-                    defaultCase: Icon(Icons.battery_full),
+                  RaisedButton(
+                    child: Text('Toggle'),
+                    onPressed: () {
+                      _myObjectNotifier.value =
+                          _myObjectNotifier.value == null ? SomeClass() : null;
+                    },
                   ),
-                  ButtonBar(
-                    children: <Widget>[
-                      RaisedButton(
-                        child: Text('Idle'),
-                        onPressed: () {
-                          _myStateNotifier.value = State.idle;
-                        },
-                      ),
-                      RaisedButton(
-                        child: Text('Loading'),
-                        onPressed: () {
-                          _myStateNotifier.value = State.loading;
-                        },
-                      ),
-                      RaisedButton(
-                        child: Text('Full'),
-                        onPressed: () {
-                          _myStateNotifier.value = State.full;
-                        },
-                      ),
-                    ],
+                  ValueListenableBuilder<SomeClass>(
+                    valueListenable: _myObjectNotifier,
+                    builder: (context, value, child) => Conditional.boolean(
+                      value == null,
+                      trueWidget: Text('SomeObject is null'),
+                      falseBuilder: () =>
+                          Text('SomeObject says: ${value.someFunction()}'),
+                    ),
                   ),
                 ],
               ),

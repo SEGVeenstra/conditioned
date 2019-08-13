@@ -15,7 +15,7 @@ class Condition extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     for (var c in cases) {
-      if (c.expression) return c.widget;
+      if (c.expression) return c.builder();
     }
     return defaultCase;
   }
@@ -26,9 +26,9 @@ class Condition extends StatelessWidget {
 /// [expression] results in true.
 class Case {
   final bool expression;
-  final Widget widget;
+  final Widget Function() builder;
 
-  Case({@required this.expression, @required this.widget})
+  Case({@required this.expression, Widget widget, Widget Function() builder})
       : assert(expression != null),
-        assert(widget != null);
+        this.builder = (builder ?? () => widget);
 }
