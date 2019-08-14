@@ -17,7 +17,7 @@ class Conditioned extends StatelessWidget {
   }
 
   static Conditioned equality<T>(T value, {List<Value<T>> values, Widget Function() defaultBuilder}){
-    final newCases = values.map((c) => Case(value == c.value, builder: c.builder)).toList();
+    final newCases = values.map((c) => Case(value == c.value, builder: () => c.builder())).toList();
     return Conditioned(cases: newCases,defaultBuilder: defaultBuilder,);
   }
 

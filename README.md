@@ -4,12 +4,18 @@ A package that contains a set of Widgets to remove ugly `if`, `if else` and `swi
 
 ## Usage
 
+The `Conditioned` `Widget` is just like any other and can be used in your `Widget` tree.
+`Conditioned` will have one child. What that child will be is up to you.
+You will provide the cases and `Conditioned` will figure out which `builder` to call.
+
+> Note: You will always provide a builder method that results in a Widget. Providing builders instead of Widgets are better for performance and allows us to use null objects.
+
 ### Basics
 
 When you want to add a specific child based on a condition you can avoid the `if`, `else if` and `else` drama by using the `Conditioned` Widget.
-`Condition` will use the `builder` of the first `Case` whos `expression` validates as `true`.
+`Conditioned` will use the `builder` of the first `Case` whos `expression` validates as `true`.
 
-#### Sample without `Conditioned`
+#### Without `Conditioned`
 
 We cannot use `if .. else if .. else` directly in our layout code. We have to propagate it to a function (not recommended) or to a new Widget.
 
@@ -32,7 +38,7 @@ Widget _getIcon() {
 }
 ```
 
-#### Sample with `Conditioned`
+#### With `Conditioned`
 
 With the use of `Conditioned` you don't have to break up the tree at the point of the `if .. else if .. else`. You can break up the tree where it makes sense, which is often right after the condition.
 
@@ -56,7 +62,7 @@ Widget build(BuildContext context) {
 For simple true/false checks you can use the `Conditioned.boolean` constructor.
 It will not reduce your lines of code, it does however make it more consistent with the rest of your layout code.
 
-#### Sample without `Conditioned.boolean`
+#### Without `Conditioned.boolean`
 
 ```dart
 Widget build(BuildContext context) {
@@ -73,7 +79,7 @@ Widget build(BuildContext context) {
     );
 }
 ```
-#### Sample with `Conditioned.boolean`
+#### With `Conditioned.boolean`
 
 ```dart
 Widget build(BuildContext context) {
@@ -102,7 +108,7 @@ enum State {empty, loading, full, error}
 final state = State.idle;
 ```
 
-#### Sample without `Conditioned.equality<T>`
+#### Without `Conditioned.equality<T>`
 
 We cannot use a `switch` directly in our layout code. We have to propagate it to a function (not recommended) or to a new Widget.
 
@@ -125,13 +131,13 @@ Widget _getStateText() {
       return Text('An error occured');
       break;
     default:
-      return Text('The device is opperating as expected');
+      return Text('The device is operating as expected');
       break;
     }
 }
 ```
 
-#### Sample with `Conditioned.equality<T>`
+#### With `Conditioned.equality<T>`
 
 With the use of `Conditioned.equality<T>` you don't have to break up the tree at the point of the `switch` or introduce a `Builder` `Widget`. You can break up the tree where it makes more sense, right after the switch for example.
 
@@ -144,7 +150,7 @@ Widget build(BuildContext context) {
         Value(State.full, builder: () => Text('The device is fully loaded')),
         Value(State.error, builder: () => Text('An error occured')),
       ],
-      defaultBuilder: () => Text('The device is opperating as expected')
+      defaultBuilder: () => Text('The device is operating as expected')
     ),
   );
 }
