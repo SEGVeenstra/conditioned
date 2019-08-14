@@ -4,13 +4,8 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class SomeClass {
-  String someFunction() => 'Some result';
-}
-
 class MyApp extends StatelessWidget {
   final _myNumberNotifier = ValueNotifier<double>(0.0);
-  final _myObjectNotifier = ValueNotifier<SomeClass>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -29,69 +24,53 @@ class MyApp extends StatelessWidget {
               valueListenable: _myNumberNotifier,
               builder: (context, myNumber, child) => Column(
                 children: <Widget>[
-                  Conditional(
-                    cases: [
-                      Case(
-                          expression: myNumber < 25,
-                          widget: Icon(Icons.ac_unit)),
-                      Case(
-                          expression: myNumber < 50,
-                          builder: () => Icon(
-                                Icons.beach_access,
-                                size: 64.0,
-                              )),
-                      Case(
-                          expression: myNumber < 75,
-                          widget: Icon(
-                            Icons.wb_cloudy,
-                            semanticLabel: 'icon of a cloud',
-                          )),
-                    ],
-                    defaultCase: Icon(Icons.wb_sunny),
+                  Builder(
+                    builder: (context) {
+                      if (myNumber < 25)
+                        return Icon(Icons.ac_unit);
+                      else if (myNumber < 50)
+                        return Icon(Icons.home);
+                      else if (myNumber < 75)
+                        return Icon(Icons.wb_cloudy);
+                      else
+                        return Icon(Icons.wb_sunny);
+                    },
                   ),
-                  Conditional.boolean(
+                  Conditioned(
+                    cases: [
+                      Case(myNumber < 25, builder: () => Icon(Icons.ac_unit)),
+                      Case(myNumber < 50, builder: () => Icon(Icons.home)),
+                      Case(myNumber < 75, builder: () => Icon(Icons.wb_cloudy)),
+                    ],
+                    defaultBuilder: () => Icon(Icons.wb_sunny),
+                  ),
+                  myNumber > 50
+                      ? Icon(Icons.airplanemode_active)
+                      : Icon(Icons.directions_car),
+                  Conditioned.boolean(
                     myNumber > 50,
-                    trueWidget: Icon(Icons.airplanemode_active),
-                    falseWidget: Icon(Icons.directions_car),
+                    trueBuilder: () => Icon(Icons.airplanemode_active),
+                    falseBuilder: () => Icon(Icons.directions_car),
                   ),
-                  SimpleCondition(
-                    expression: myNumber > 50,
-                    whenTrue: Text(
-                      'The condition is true!',
-                      style: TextStyle(color: Colors.orange[200]),
-                    ),
-                    whenFalse: Text(
-                      'The condition is false!',
-                      style: TextStyle(color: Colors.orange[800]),
-                    ),
+                  Builder(
+                    builder: (context) {
+                      switch (myNumber.round()) {
+                        case 100:
+                          return Icon(Icons.wb_sunny);
+                        case 0:
+                          return Icon(Icons.add_a_photo);
+                        default:
+                          return Icon(Icons.ac_unit);
+                      }
+                    },
                   ),
-                  Condition(
-                    cases: [
-                      Case(
-                          expression: myNumber < 25,
-                          widget: Icon(Icons.ac_unit)),
-                      Case(
-                          expression: myNumber < 50,
-                          widget: Icon(
-                            Icons.beach_access,
-                            size: 64.0,
-                          )),
-                      Case(
-                          expression: myNumber < 75,
-                          widget: Icon(
-                            Icons.wb_cloudy,
-                            semanticLabel: 'icon of a cloud',
-                          )),
+                  Conditioned.equality<int>(
+                    myNumber.round(),
+                    values: [
+                      Value(100, builder: () => Icon(Icons.wb_sunny)),
+                      Value(0, builder: () => Icon(Icons.add_a_photo))
                     ],
-                    defaultCase: Icon(Icons.wb_sunny),
-                  ),
-                  SwitchCondition<double>(
-                    value: myNumber,
-                    cases: [
-                      SwitchCase(value: 0, widget: Icon(Icons.remove)),
-                      SwitchCase(value: 100, widget: Icon(Icons.add)),
-                    ],
-                    defaultCase: Icon(Icons.accessibility_new),
+                    defaultBuilder: () => Icon(Icons.ac_unit),
                   ),
                   Text(myNumber.toStringAsFixed(1)),
                   Slider(
@@ -99,22 +78,6 @@ class MyApp extends StatelessWidget {
                     min: 0,
                     max: 100,
                     onChanged: (value) => _myNumberNotifier.value = value,
-                  ),
-                  RaisedButton(
-                    child: Text('Toggle'),
-                    onPressed: () {
-                      _myObjectNotifier.value =
-                          _myObjectNotifier.value == null ? SomeClass() : null;
-                    },
-                  ),
-                  ValueListenableBuilder<SomeClass>(
-                    valueListenable: _myObjectNotifier,
-                    builder: (context, value, child) => Conditional.boolean(
-                      value == null,
-                      trueWidget: Text('SomeObject is null'),
-                      falseBuilder: () =>
-                          Text('SomeObject says: ${value.someFunction()}'),
-                    ),
                   ),
                 ],
               ),

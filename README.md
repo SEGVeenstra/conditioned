@@ -4,12 +4,59 @@ A package that contains a set of Widgets to remove ugly `if`, `if else` and `swi
 
 ## Usage
 
+### Basics
+
+When you want to add a specific child based on a condition you can avoid the `if`, `else if` and `else` drama by using the `Conditioned` Widget.
+`Condition` will use the `builder` of the first `Case` whos `expression` validates as `true`.
+
+#### Sample without `Conditioned`
+
+We cannot use `if .. else if .. else` directly in our layout code. We have to propagate it to a function (not recommended) or to a new Widget.
+
+```dart
+Widget build(BuildContext context){
+  return Container(
+    child: _getIcon(),
+  );
+}
+
+Widget _getIcon() {
+  if (myNumber < 25)
+    return Icon(Icons.ac_unit);
+  else if (myNumber < 50)
+    return Icon(Icons.home);
+  else if (myNumber < 75)
+    return Icon(Icons.wb_cloudy);
+  else
+    return Icon(Icons.wb_sunny);
+}
+```
+
+#### Sample with `Conditioned`
+
+With the use of `Conditioned` you don't have to break up the tree at the point of the `if .. else if .. else`. You can break up the tree where it makes sense, which is often right after the condition.
+
+```dart
+Widget build(BuildContext context) {
+  return Container(
+    child: Condition(
+      cases: [
+        Case(myNumber < 25, builder: () => Icon(Icons.ac_unit)),
+        Case(myNumber < 50, builder: () => Icon(Icons.home)),
+        Case(myNumber < 75, builder: () => Icon(Icons.wb_cloudy)),
+      ],
+      defaultBuilder: () => Icon(Icons.wb_sunny),
+    ),
+  );
+}
+```
+
 ### Simple boolean checks
 
-For simple true/false checks you can use the `SimpleCondition` Widget.
-It will not reduce your lines of code, it does however make it more readable by using the same syntax as you'd use for the rest of your layout code.
+For simple true/false checks you can use the `Conditioned.boolean` constructor.
+It will not reduce your lines of code, it does however make it more consistent with the rest of your layout code.
 
-#### Sample without `SimpleCondition`
+#### Sample without `Conditioned.boolean`
 
 ```dart
 Widget build(BuildContext context) {
@@ -26,18 +73,17 @@ Widget build(BuildContext context) {
     );
 }
 ```
-#### Sample with `SimpleCondition`
+#### Sample with `Conditioned.boolean`
 
 ```dart
 Widget build(BuildContext context) {
     return Container(
-        child: SimpleCondition(
-            expression: myNumber > 50,
-            whenTrue: Text(
+        child: Conditioned.boolean( myNumber > 50,
+            trueBuilder: () => Text(
               'The condition is true!',
               style: TextStyle(color: Colors.orange[200]),
             ),
-            whenFalse: Text(
+            falseBuilder: () => Text(
               'The condition is false!',
               style: TextStyle(color: Colors.orange[800]),
             ),
@@ -46,56 +92,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-### More complex use-cases
-
-When you want to add a specific child based on a condition but a simple true/false check will not suffice, you can avoid the `if`, `else if` and `else` drama by using the `Condition` Widget.
-`Condition` will embed the Widget of the first `Case` whos `expression` validates as `true`.
-
-#### Sample without `Condition`
-
-We cannot use `if .. else if .. else` directly in our layout code. We have to propagate it to a function (not recommended) or to a new Widget.
-
-```dart
-Widget build(BuildContext context){
-  return Container(
-    child: _getIcon(),
-  );
-}
-
-Widget _getIcon() {
-  if (myNumber < 25)
-    return Icon(Icons.ac_unit);
-  else if (myNumber < 50)
-    return Icon(Icons.beach_access);
-  else if (myNumber < 75)
-    return Icon(Icons.wb_cloudy);
-  else
-    return Icon(Icons.wb_sunny);
-}
-```
-
-#### Sample with `Condition`
-
-With the use of `Condition` you don't have to break up the tree at the point of the `if .. else if .. else`. You can break up the tree where it makes sense.
-
-```dart
-Widget build(BuildContext context) {
-  return Container(
-    child: Condition(
-      cases: [
-        Case(expression: myNumber < 25, widget: Icon(Icons.ac_unit)),
-        Case(expression: myNumber < 50, widget: Icon(Icons.beach_access)),
-        Case(expression: myNumber < 75, widget: Icon(Icons.wb_cloudy)),
-      ],
-      defaultCase: Icon(Icons.wb_sunny),
-    ),
-  );
-}
-```
-
 ### Switch cases
 
-If instead of checking for boolean conditions but want to check by equality where you would normally use a `switch`, you can use the `SwitchCondition`.
+If instead of checking for boolean conditions but want to check by equality where you would normally want to use a `switch`, you can use the `Conditioned.equality<T>` static method.
 
 Let's say we need to build a screen based on the following information:
 ```dart
@@ -103,7 +102,7 @@ enum State {empty, loading, full, error}
 final state = State.idle;
 ```
 
-#### Sample without `SwitchCondition`
+#### Sample without `Conditioned.equality<T>`
 
 We cannot use a `switch` directly in our layout code. We have to propagate it to a function (not recommended) or to a new Widget.
 
@@ -132,21 +131,20 @@ Widget _getStateText() {
 }
 ```
 
-#### Sample with `SwitchCondition`
+#### Sample with `Conditioned.equality<T>`
 
-With the use of `SwitchCondition` you don't have to break up the tree at the point of the `switch`. You can break up the tree where it makes sense.
+With the use of `Conditioned.equality<T>` you don't have to break up the tree at the point of the `switch` or introduce a `Builder` `Widget`. You can break up the tree where it makes more sense, right after the switch for example.
 
 ```dart
 Widget build(BuildContext context) {
   return Container(
-    child: SwitchCondition<State>(
-      value: state,
-      cases: [
-        Case(value: State.loading, widget: Text('The device is loading')),
-        Case(value: State.full, widget: Text('The device is fully loaded')),
-        Case(value: State.error, widget: Text('An error occured')),
+    child: Conditioned.equality<State>( state,
+      values: [
+        Value(State.loading, builder: () => Text('The device is loading')),
+        Value(State.full, builder: () => Text('The device is fully loaded')),
+        Value(State.error, builder: () => Text('An error occured')),
       ],
-      defaultCase: Text('The device is opperating as expected')
+      defaultBuilder: () => Text('The device is opperating as expected')
     ),
   );
 }
