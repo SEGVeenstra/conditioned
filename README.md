@@ -8,7 +8,7 @@ The `Conditioned` `Widget` is just like any other and can be used in your `Widge
 `Conditioned` will have one child. What that child will be is up to you.
 You will provide the cases and `Conditioned` will figure out which `builder` to call.
 
-> Note: You will always provide a builder method that results in a Widget. Providing builders instead of Widgets are better for performance and allows us to use null objects.
+> Note: You will always provide a builder method that results in a Widget. Providing builders instead of Widgets is better for performance and allows us to use null objects.
 
 ### Basics
 
