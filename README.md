@@ -123,16 +123,12 @@ Widget _getStateText() {
   switch(state) {
     case State.loading:
       return Text('The device is loading');
-      break;
     case State.full:
       return Text('The device is fully loaded');
-      break;
     case State.error:
       return Text('An error occured');
-      break;
     default:
       return Text('The device is operating as expected');
-      break;
     }
 }
 ```
