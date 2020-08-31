@@ -45,7 +45,7 @@ With the use of `Conditioned` you don't have to break up the tree at the point o
 ```dart
 Widget build(BuildContext context) {
   return Container(
-    child: Condition(
+    child: Conditioned(
       cases: [
         Case(myNumber < 25, builder: () => Icon(Icons.ac_unit)),
         Case(myNumber < 50, builder: () => Icon(Icons.home)),
