@@ -1,3 +1,7 @@
+## 0.0.8 - 01/10/2020
+
+* Fix typo in README.md
+
 ## 0.0.7 - 08/14/2019
 
 * Completely overhauled the API so it's now 1 `Widget` named `Conditioned`.

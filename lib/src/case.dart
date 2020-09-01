@@ -7,7 +7,7 @@ class Case {
   final bool expression;
   final Widget Function() builder;
 
-  Case(this.expression,{@required Widget Function() builder})
+  Case(this.expression, {@required Widget Function() builder})
       : assert(expression != null),
         this.builder = builder;
 }
