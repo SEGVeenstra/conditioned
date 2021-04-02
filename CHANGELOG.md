@@ -1,3 +1,8 @@
+## 0.1.0 - 02/04/2021
+
+* Add null-safety
+* Renamed package to conditioned
+
 ## 0.0.8 - 01/09/2020
 
 * Fix typo in README.md

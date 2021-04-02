@@ -7,7 +7,5 @@ class Value<T> {
   final T value;
   final Widget Function() builder;
 
-  Value(this.value,{@required this.builder})
-      : assert(value != null),
-        assert(builder != null);
+  Value(this.value, {required this.builder});
 }
