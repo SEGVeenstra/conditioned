@@ -1,4 +1,4 @@
-# package: condition
+# conditioned
 
 A package that contains a set of Widgets to remove ugly `if`, `if else` and `switch` statements from your layout code and keep it more consistent.
 

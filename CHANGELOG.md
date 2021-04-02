@@ -1,4 +1,4 @@
-## 0.1.0 - 02/04/2021
+## 0.1.0-dev.1 - 02/04/2021
 
 * Add null-safety
 * Renamed package to conditioned

@@ -1,6 +1,6 @@
 name: conditioned
 description: This package contains a Widget that will let you show a child Widget based on provided conditions.
-version: 0.0.9
+version: 0.1.0-dev.1
 homepage: https://github.com/SEGVeenstra/conditioned
 
 environment:
