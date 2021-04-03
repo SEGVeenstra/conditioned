@@ -2,37 +2,60 @@ import 'package:conditioned/conditioned.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class Conditioned extends StatelessWidget {
-  final List<Case> cases;
+class FilterEntry<T> {
+  final T value;
+  final Widget Function() builder;
 
-  Conditioned(
-      {required this.cases, required Widget Function() defaultBuilder}) {
-    this.cases.add(Case(true, builder: defaultBuilder));
-  }
+  FilterEntry(this.value, {required this.builder});
+}
+
+class Conditioned extends StatelessWidget {
+  final Widget child;
+
+  Conditioned._(this.child);
 
   Conditioned.boolean(bool condition,
       {required Widget Function() trueBuilder,
       required Widget Function() falseBuilder})
-      : cases = [] {
-    cases.add(Case(condition, builder: trueBuilder));
-    cases.add(Case(!condition, builder: falseBuilder));
+      : child = condition ? trueBuilder() : falseBuilder();
+
+  Conditioned.when({
+    required List<Case> cases,
+    required Widget Function() defaultCase,
+  }) : child = cases
+            .firstWhere((element) => element.expression,
+                orElse: () => Case(true, builder: defaultCase))
+            .builder();
+
+  static Conditioned? whenTrue(
+    bool condition,
+    Widget Function() builder,
+  ) {
+    return condition ? Conditioned._(builder()) : null;
+  }
+
+  static List<Widget> filterBy<T>({
+    required bool Function(T value) function,
+    required List<FilterEntry<T>> entries,
+  }) {
+    return entries
+        .where((c) => function(c.value))
+        .map((e) => e.builder())
+        .toList();
+  }
+
+  static List<Widget> filter({
+    required List<FilterEntry<bool>> entries,
+  }) {
+    return entries.where((c) => c.value).map((e) => e.builder()).toList();
   }
 
   static Conditioned equality<T>(T value,
-      {required List<Value<T>> values,
-      required Widget Function() defaultBuilder}) {
-    final newCases = values
-        .map((c) => Case(value == c.value, builder: () => c.builder()))
-        .toList();
-    return Conditioned(
-      cases: newCases,
-      defaultBuilder: defaultBuilder,
-    );
+      {required Map<T, Widget Function()> cases,
+      required Widget Function() defaultCase}) {
+    return Conditioned._(cases[value]?.call() ?? defaultCase());
   }
 
   @override
-  Widget build(BuildContext context) {
-    for (var c in cases) if (c.expression) return c.builder();
-    throw ArgumentError('There was no valid result.');
-  }
+  Widget build(BuildContext context) => child;
 }
